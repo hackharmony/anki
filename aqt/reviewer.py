@@ -339,11 +339,10 @@ Please run Tools>Empty Cards""")
                 # empty field, remove type answer pattern
                 return re.sub(self.typeAnsPat, "", buf)
         return re.sub(self.typeAnsPat, """
-<center>
 <input type=text id=typeans onkeypress="_typeAnsPress();"
    style="font-family: '%s'; font-size: %spx;">
-</center>
 """ % (self.typeFont, self.typeSize), buf)
+    # stop centering the text!
 
     def typeAnsAnswerFilter(self, buf):
         if not self.typeCorrect:
@@ -537,10 +536,8 @@ time = %(time)d;
         cnt = self.mw.col.sched.answerButtons(self.card)
         if cnt == 2:
             return l + ((2, _("Good")),)
-        elif cnt == 3:
-            return l + ((2, _("Good")), (3, _("Easy")))
-        else:
-            return l + ((2, _("Hard")), (3, _("Good")), (4, _("Easy")))
+        # Get rid of Hard because it interferes with muscle memory
+        return l + ((2, _("Good")), (3, _("Easy")))
 
     def _answerButtons(self):
         default = self._defaultEase()

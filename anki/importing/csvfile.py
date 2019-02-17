@@ -112,11 +112,13 @@ class TextImporter(NoteImporter):
                     self.delimiter = " "
             reader = csv.reader(self.data, delimiter=self.delimiter, doublequote=True)
         try:
-            while True:
+            # Try to sample the number of fields from a second row.  Just the
+            # first may be innacurate because the first line could be the
+            # separator in CSV.
+            row = next(reader, None)
+            if row is not None:
                 row = next(reader)
-                if row:
-                    self.numFields = len(row)
-                    break
+            self.numFields = len(row)
         except:
             err()
         self.initMapping()
